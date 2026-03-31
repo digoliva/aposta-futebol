@@ -12,4 +12,5 @@ public class Clube {
     public void setNome(String nome){
         this.nome = nome;
     }
+
 }
