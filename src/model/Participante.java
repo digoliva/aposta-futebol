@@ -1,31 +1,61 @@
 package model;
 
-public class Participante extends Usuario {
-        private Integer pontuacaoAcumulada;
+import interfaces.Pontuavel;
+import java.util.ArrayList;
+import java.util.List;
 
-        public Participante(String login, String senha){
-         super(login, senha);
-         this.pontuacaoAcumulada =   0;
-        }
-        public void ingressarEmGrupo(Grupo g){
+public class Participante extends Usuario implements Pontuavel {
+    private int totalPontos;
+    private List<Aposta> apostas;
 
-        }
-        public void realizarAposta(Partida p, int gM, int gV){
-        }
+    // Construtor padrão
+    public Participante() {
+        super();
+        this.totalPontos = 0;
+        this.apostas = new ArrayList<>();
+    }
 
-        public int getPontuacaoAcumulada(){
-            return pontuacaoAcumulada;
+    // Construtor sobrecarregado
+    public Participante(String nome, String login, String senha) {
+        super(nome, login, senha);
+        this.totalPontos = 0;
+        this.apostas = new ArrayList<>();
+    }
+
+    // Polimorfismo: sobreposição (override) do método abstrato de Usuario
+    @Override
+    public String getTipoUsuario() {
+        return "Participante";
+    }
+
+    // Implementação da interface Pontuavel
+    @Override
+    public int calcularPontuacao() {
+        return totalPontos;
+    }
+
+    @Override
+    public void atualizarPontuacao(int pontos) {
+        this.totalPontos += pontos;
+    }
+
+    public void adicionarAposta(Aposta aposta) {
+        apostas.add(aposta);
+    }
+
+    public Aposta getApostaPorPartida(Partida partida) {
+        for (Aposta a : apostas) {
+            if (a.getPartida().equals(partida)) return a;
         }
-    public void realizarAposta(Partida p, int gA, int gB) {
-        // 1. Pergunta para a partida se ela ainda aceita apostas
-        if (p.isApostaValida()) {
-            // 2. Se sim, cria o objeto Aposta
-            Aposta novaAposta = new Aposta(gA, gB, p);
-            System.out.println("Aposta registrada com sucesso!");
-            // Aqui você adicionaria a aposta a uma lista do participante, se houver
-        } else {
-            // 3. Se não, avisa o usuário
-            System.out.println("Erro: Apostas só são permitidas até 20 min antes do jogo.");
-        }
+        return null;
+    }
+
+    public List<Aposta> getApostas() { return apostas; }
+    public int getTotalPontos() { return totalPontos; }
+    public void setTotalPontos(int totalPontos) { this.totalPontos = totalPontos; }
+
+    @Override
+    public String toString() {
+        return getNome() + " - " + totalPontos + " pts";
     }
 }

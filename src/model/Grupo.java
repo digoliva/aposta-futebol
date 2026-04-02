@@ -1,37 +1,42 @@
 package model;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-
-
 public class Grupo {
+    private static final int MAX_PARTICIPANTES = 5;
     private String nome;
-    private List<Participante> membros;
+    private List<Participante> participantes;
 
+    public Grupo() {
+        this.nome = "";
+        this.participantes = new ArrayList<>();
+    }
 
     public Grupo(String nome) {
         this.nome = nome;
-        this.membros = new ArrayList<>();
+        this.participantes = new ArrayList<>();
     }
 
-
-    public void adicionarMembro(Participante p) {
-        if (this.membros.size() < 5) {
-            this.membros.add(p);
-        } else {
-            System.out.println("Erro: O grupo já atingiu o limite de 5 membros.");
-        }
+    public boolean adicionarParticipante(Participante participante) {
+        if (participantes.size() >= MAX_PARTICIPANTES) return false;
+        participantes.add(participante);
+        return true;
     }
 
-    public String getNome() {
-        return nome;
+    public List<Participante> getClassificacao() {
+        List<Participante> classificados = new ArrayList<>(participantes);
+        classificados.sort(Comparator.comparingInt(Participante::getTotalPontos).reversed());
+        return classificados;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public List<Participante> getMembros() {
-        return membros;
-    }
+    public List<Participante> getParticipantes() { return participantes; }
+    public int getMaxParticipantes() { return MAX_PARTICIPANTES; }
+
+    @Override
+    public String toString() { return nome; }
 }

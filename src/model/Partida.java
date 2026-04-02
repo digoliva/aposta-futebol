@@ -1,62 +1,68 @@
 package model;
-import java.time.Duration;
+
 import java.time.LocalDateTime;
 
 public class Partida {
+    private Clube clubeMandante;
+    private Clube clubeVisitante;
     private LocalDateTime dataHora;
-    private Clube timeA;
-    private Clube timeB;
-    private int golsA;
-    private int golsB;
-    private boolean encerrada;
+    private int golsMandante;
+    private int golsVisitante;
+    private boolean resultadoRegistrado;
 
-    public Partida(LocalDateTime dataHora, Clube timeA, Clube timeB) {
+    public Partida() {
+        this.resultadoRegistrado = false;
+    }
+
+    public Partida(Clube clubeMandante, Clube clubeVisitante, LocalDateTime dataHora) {
+        this.clubeMandante = clubeMandante;
+        this.clubeVisitante = clubeVisitante;
         this.dataHora = dataHora;
-        this.timeA = timeA;
-        this.timeB = timeB;
-        this.encerrada = false;
-        this.golsA = 0;
-        this.golsB = 0;
+        this.resultadoRegistrado = false;
     }
 
-    public void registrarResultado(int golsA, int golsB) {
-        this.golsA = golsA;
-        this.golsB = golsB;
-        this.encerrada = true;
+    // Verifica se ainda é possível apostar (mínimo 20 min antes)
+    public boolean podeApostar() {
+        if (resultadoRegistrado) return false;
+        LocalDateTime limiteAposta = dataHora.minusMinutes(20);
+        return LocalDateTime.now().isBefore(limiteAposta);
     }
 
-    // Métodos de acesso (Getters) para a Aposta calcular os pontos
-    public LocalDateTime getDataHora() {
-        return dataHora;
+    public String getResultado() {
+        if (!resultadoRegistrado) return "Não realizada";
+        if (golsMandante > golsVisitante)
+            return clubeMandante.getNome() + " venceu";
+        if (golsVisitante > golsMandante)
+            return clubeVisitante.getNome() + " venceu";
+        return "Empate";
     }
 
-    public int getGolsA() {
-        return golsA;
+    public String getPlacar() {
+        if (!resultadoRegistrado) return "-";
+        return golsMandante + " x " + golsVisitante;
     }
 
-    public int getGolsB() {
-        return golsB;
-    }
+    // Getters e Setters
+    public Clube getClubeMandante() { return clubeMandante; }
+    public void setClubeMandante(Clube clubeMandante) { this.clubeMandante = clubeMandante; }
 
-    public boolean isEncerrada() {
-        return encerrada;
-    }
+    public Clube getClubeVisitante() { return clubeVisitante; }
+    public void setClubeVisitante(Clube clubeVisitante) { this.clubeVisitante = clubeVisitante; }
 
-    public Clube getTimeA() {
-        return timeA;
-    }
+    public LocalDateTime getDataHora() { return dataHora; }
+    public void setDataHora(LocalDateTime dataHora) { this.dataHora = dataHora; }
 
-    public Clube getTimeB() {
-        return timeB;
-    }
+    public int getGolsMandante() { return golsMandante; }
+    public void setGolsMandante(int golsMandante) { this.golsMandante = golsMandante; }
 
-    public boolean isApostaValida() {
-        LocalDateTime agora = LocalDateTime.now();
+    public int getGolsVisitante() { return golsVisitante; }
+    public void setGolsVisitante(int golsVisitante) { this.golsVisitante = golsVisitante; }
 
-        // Calcula a duração entre agora e o início da partida
-        Duration diferenca = Duration.between(agora, this.dataHora);
+    public boolean isResultadoRegistrado() { return resultadoRegistrado; }
+    public void setResultadoRegistrado(boolean resultadoRegistrado) { this.resultadoRegistrado = resultadoRegistrado; }
 
-        // Retorna true se faltarem 20 minutos ou mais
-        return diferenca.toMinutes() >= 20;
+    @Override
+    public String toString() {
+        return clubeMandante + " x " + clubeVisitante + " | " + dataHora.toLocalDate() + " " + dataHora.toLocalTime();
     }
 }

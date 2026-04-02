@@ -2,23 +2,15 @@ package model;
 
 public class Administrador extends Usuario {
 
-    public Administrador(String login, String senha){
-        super(login, senha);
+    public Administrador() {
+        super();
     }
 
+    public Administrador(String nome, String login, String senha) {
+        super(nome, login, senha);
+    }
     @Override
-    public String getLogin() {
-        return super.getLogin();
+    public String getTipoUsuario() {
+        return "Administrador";
     }
-
-    @Override
-    public void setLogin(String login) {
-        super.setLogin(login);
-    }
-
-    @Override
-    public void setSenha(String senha) {
-        super.setSenha(senha);
-    }
-
 }
