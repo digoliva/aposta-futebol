@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
-      <module fileurl="file://$PROJECT_DIR$/Sistema_de_apostas.iml" filepath="$PROJECT_DIR$/Sistema_de_apostas.iml" />
-=======
       <module fileurl="file://$PROJECT_DIR$/lpoo.iml" filepath="$PROJECT_DIR$/lpoo.iml" />
->>>>>>> master
     </modules>
   </component>
 </project>

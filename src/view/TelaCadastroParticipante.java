@@ -10,11 +10,10 @@ public class TelaCadastroParticipante extends JDialog {
     private JPasswordField txtSenha;
     private ParticipanteController controller = new ParticipanteController();
 
-    public TelaCadastroParticipante() {
-        setTitle("Cadastro de Participante");
+    public TelaCadastroParticipante(JFrame parent) {
+        super(parent, "Cadastro de Participante", true);
         setSize(380, 280);
-        setModal(true);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(parent);
         setResizable(false);
         initComponents();
     }
@@ -55,7 +54,7 @@ public class TelaCadastroParticipante extends JDialog {
 
         JButton btnSalvar = new JButton("Cadastrar");
         btnSalvar.setBackground(new Color(0, 150, 0));
-        btnSalvar.setForeground(Color.WHITE);
+        btnSalvar.setForeground(Color.BLACK);
         btnSalvar.setFont(new Font("Arial", Font.BOLD, 13));
         gbc.gridx = 0; gbc.gridy = 4; gbc.gridwidth = 2;
         painel.add(btnSalvar, gbc);
